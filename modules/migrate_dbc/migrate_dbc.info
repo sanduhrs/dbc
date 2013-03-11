@@ -1,0 +1,8 @@
+name = "Migrate DBC"
+description = "DBC migration data."
+package = "Development"
+core = 7.x
+
+dependencies[] = migrate
+
+files[] = dbc.inc
