@@ -5,8 +5,8 @@ php:
 
 env:
   global:
-    - PROJECT_NAME=bmc
-    - DRUPAL_INSTALL_PROFILE=bmc
+    - PROJECT_NAME=DBC
+    - DRUPAL_INSTALL_PROFILE=dbc
 
 mysql:
   database: drupal

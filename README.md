@@ -1,11 +1,11 @@
-BMC
+DBC
 ===
 
 An exlusive Drupal 7 install profile.
 
 Supports acceptance testing with Behat/Mink using Travis CI.
 
-[![Build Status](https://travis-ci.org/sanduhrs/bmc.png?branch=master)](https://travis-ci.org/sanduhrs/bmc)
+[![Build Status](https://travis-ci.org/sanduhrs/dbc.png?branch=master)](https://travis-ci.org/sanduhrs/dbc)
 
 ## Prerequisites
 
@@ -30,21 +30,21 @@ Build the codebase as defined in this profile.
 
 Install the site using this profile
 
-    drush site-install bmc --db-url=mysql://USERNAME:PASSWORD@localhost/DB_NAME --root=${PWD}/build -y
+    drush site-install dbc --db-url=mysql://USERNAME:PASSWORD@localhost/DB_NAME --root=${PWD}/build -y
 
 ## Acceptance tests
 
 Install tools for testing
 
-    cd build/profiles/bmc/tests/behat/
+    cd build/profiles/dbc/tests/behat/
     curl -s http://getcomposer.org/installer | php
     php composer.phar install
 
-Add new tests to build/profiles/bmc/tests/behat/features/
+Add new tests to build/profiles/dbc/tests/behat/features/
 See Behat http://behat.org/ for more info.
 
     # Run tests
-    cd build/profiles/bmc/tests/behat
+    cd build/profiles/dbc/tests/behat
     drush runserver :9002 --server=builtin &
     ./bin/behat
 
