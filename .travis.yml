@@ -1,0 +1,83 @@
+language: php
+
+php:
+  - 5.4
+
+env:
+  global:
+    - PROJECT_NAME=bmc
+    - DRUPAL_INSTALL_PROFILE=bmc
+
+mysql:
+  database: drupal
+  username: root
+  encoding: utf8
+
+install:
+
+  # Create MySQL Database
+  - mysql -e 'create database drupal;'
+
+  # Install Drush
+  - pyrus channel-discover pear.drush.org
+  - pyrus install drush/drush-5.8.0
+  - phpenv rehash
+
+
+before_script:
+  - echo "sendmail_path='/bin/true'" >> `php --ini | grep "Loaded Configuration" | awk '{print $4}'`
+
+  # Install Profile
+  - drush make build.make build --yes
+  - cd build
+  - drush si $DRUPAL_INSTALL_PROFILE --sites-subdir=default --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=password --site-mail=admin@example.com --site-name="Site-Install" --yes
+  - drush cc all --yes
+  - cd ../
+
+  # Run composer
+  - cd build/profiles/$DRUPAL_INSTALL_PROFILE/tests/behat
+  - composer install
+  - cd ../../../../../
+
+  - cd build
+  - nohup drush runserver --root=$PWD --server=builtin :9002 &
+  - cd ../
+
+  # Setup display
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
+  # Selenium
+  - wget http://selenium.googlecode.com/files/selenium-server-standalone-2.25.0.jar
+  - java -jar selenium-server-standalone-2.25.0.jar -p 4444 &
+
+  # Phantom.js
+  - export PHANTOMJS_EXECUTABLE='phantomjs --local-to-remote-url-access=yes --ignore-ssl-errors=yes'
+
+  # Casper.js
+  - git clone git://github.com/n1k0/casperjs.git
+  - cd casperjs
+  - git checkout tags/1.0.2
+  - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+  - cd ../
+
+  - phantomjs --version
+  - casperjs --version
+
+script:
+  - cd build/profiles/$DRUPAL_INSTALL_PROFILE/tests/behat
+  # behat.yml includes behat.local.yml so it must exist
+  - touch behat.local.yml
+  - ./bin/behat
+  - cd ../../../../../
+
+
+  - cd build/profiles/$DRUPAL_INSTALL_PROFILE/tests/casper
+  - casperjs screenshots.js
+  - cd ../../../../../
+
+  #- cd build
+  #- drush en simpletest --yes
+  #- drush cc all
+  #- drush vset --yes simpletest_verbose FALSE
+  #- drush test-run --uri=http://127.0.0.1:9002 --all --xml

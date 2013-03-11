@@ -1,0 +1,6 @@
+tests/behat/bin
+tests/behat/composer.lock
+tests/behat/composer.phar
+tests/behat/vendor
+tests/behat/behat.local.yml
+build
