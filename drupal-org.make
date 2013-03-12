@@ -51,11 +51,11 @@ projects[entity][version] = "1.0"
 projects[countries][subdir] = "contrib"
 projects[countries][version] = "2.1"
 
-projects[country_icons][subdir] = "contrib"
-projects[country_icons][version] = "7.x-2.0-beta1"
+projects[countryicons][subdir] = "contrib"
+projects[countryicons][version] = "2.0-beta1"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "7.x-2.0"
+projects[flag][version] = "2.0"
 
 projects[field_collection][subdir] = "contrib"
 projects[field_collection][version] = "1.0-beta5"
