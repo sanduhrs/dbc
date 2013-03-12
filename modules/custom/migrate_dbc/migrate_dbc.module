@@ -1,11 +1,19 @@
 <?php
 
+function migrate_dbc_init() {
+  drupal_set_message(__FUNCTION__);
+}
+
 /**
  * Implements hook_migrate_api().
  */
 function migrate_dbc_migrate_api() {
   $api = array(
     'api' => 2,
+    'migrations' => array(
+      'DBCArticle' => array('class_name' => 'DBCArticleMigration'),
+      'DBCArticleCollection' => array('class_name' => 'DBCArticleCollection'),
+    ),
   );
   return $api;
 }
